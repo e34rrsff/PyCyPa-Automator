@@ -2,7 +2,7 @@
 
 # Configurations you have to set
 
-DESKTOP_DIR="/home/e34/desktop"
+DESKTOP_DIR="/home/$(whoami)/Desktop"
 
 # Just printing out "Forensic Questions"	
 echo -e "\033[34m\
