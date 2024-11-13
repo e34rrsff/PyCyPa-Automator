@@ -1,17 +1,16 @@
 #!/bin/bash
 
-# Configurations you have to set
+# Variables you might have to change manually
 
 DESKTOP_DIR="/home/$(whoami)/Desktop"
 
-# Just printing out "Forensic Questions"	
+# Start of Forensic Questions Section
 echo -e "\033[34m\
 #######################\n\
 # Foreninc Questions #\n\
 #######################\
 \033[0m"
- 
-# Waiting for forensic question 1 to be completed
+
 echo -e "\033[33m\n\
 Complete forensic question 1 and enter \"done\" when you have gained the points\n\
 (Don't stop/exit this script)\n\
@@ -19,11 +18,10 @@ Complete forensic question 1 and enter \"done\" when you have gained the points\
 
 while [ "$QUESTION1STATUS" != 'done' ] 
 do
-        echo -e "Waiting for you to enter \"done\"..."
-        read 'QUESTION1STATUS'
+	echo -e "Waiting for you to enter \"done\"..."
+    read 'QUESTION1STATUS'
 done
 
-# Waiting for forensic question 2 to be completed
 echo -e "\033[33m\n\
 Now complete forensic question 2 and enter \"done\" when you have gained the points\n\
 (Don't stop/exit this script)\n\
@@ -32,10 +30,12 @@ Now complete forensic question 2 and enter \"done\" when you have gained the poi
 while [ "$QUESTION2STATUS" != 'done' ]
 do
 	echo -e "Waiting for you to enter \"done\"..."
-        read 'QUESTION2STATUS'
+	read 'QUESTION2STATUS'
 done
 echo -e ""
+# End of Forensic Questions Section
 
+# APT Updates Section
 echo -e "\033[34m\
 ###############\n\
 # APT Updates #\n\
@@ -56,6 +56,7 @@ Uncomment lines that contain \"security.ubuntu.com\" AND start with \"deb\" (not
 \033[0m\n\
 Press any key to continue..."
 		read -n 1
+		# /etc/apt/sources.list contains the URLs pointing to system .deb packages
 		sudo editor /etc/apt/sources.list
 		sudo apt update
 		sudo apt upgrade -y
@@ -69,6 +70,7 @@ Press any key to continue..."
 
 	fi
 done
+# End of APT Updates Section
 
 echo -e "\033[34m\
 ###############################\n\
@@ -90,31 +92,24 @@ Press Q when you are done reviewing the files.\n\
 \033[0m\n\
 Press any key to continue..."
 		read -n 1
-		sudo find /home \
+		export BADFILESLIST = $(sudo find /home \
 -iname "*.mp3" -o \
 -iname "*.mp4" -o \
 -iname "*.mov" -o \
 -iname "*.wmv" -o \
 -iname "*.avi" -o \
 -iname "*.gif" -o \
--iname "*.webm" 2>/dev/null | less
-
+-iname "*.webm" 2>/dev/null | awk '{ print "\""$0"\""}' )
+		echo $BADFILESLIST | sed "s/\" /\n/g" | sed "s/\"//g" | less
 		while :
 		do
-			if [[ "$MV_FILES" == 'Y' || "$MV_FILES" == 'y' ]]; then
+			if [[ "$RM_FILES" == 'Y' || "$RM_FILES" == 'y' ]]; then
 				echo -e "Moving unauthorized files to /tmp/unauthorized-files/...'"
-				sudo mkdir -p /tmp/unauthorized-files/
-				sudo find /home \
--iname "*.mp3" -o \
--iname "*.mp4" -o \
--iname "*.mov" -o \
--iname "*.wmv" -o \
--iname "*.avi" -o \
--iname "*.gif" -o \
--iname "*.webm" -exec cp --parents {} /tmp/unauthorized-files/ \; -exec rm {} \;
-				sudo chown -R root:root /tmp/unauthorized-files/
+				sudo mkdir -m 770 -p /tmp/unauthorized-files/
+				sudo cp --parents $BADFILESLIST /tmp/unauthorized-files/
+				sudo rm -f $BADFILESLIST
 				break
-			elif [[ "$MV_FILES" == 'N' || "$MV_FILES" == 'n' ]]; then
+			elif [[ "$RM_FILES" == 'N' || "$RM_FILES" == 'n' ]]; then
 				echo -e "Skipped removing unauthorized files...\n"
 				break
 			else
@@ -122,7 +117,7 @@ Press any key to continue..."
 Would you like to remove the files that were listed?\
 \033[0m"
 				echo -en "Enter \"Y\" or \"N\":"
-				read 'MV_FILES'
+				read 'RM_FILES'
 			fi
 		done
 		break
