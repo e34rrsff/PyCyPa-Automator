@@ -1,12 +1,44 @@
-# firewall grahhhhh
+# firewall grahhhhh Section Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled True
 Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled True
+# End of firewall grahhhhh Section
 
 # UAC, 5 for normal, -1 for secure
-Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
+# Configure UAC Section
+while ( $true )
+{
+	$SetUACLevel = Read-Host "Enter UAC prompt level. (YOU PROBABLY WANT TO SET THIS TO 5) (0-5): "
+	if ( $SetUACLevel -lt 0 -or $SetUACLevel -gt 5 -and $SetUACLevel -isnot [int] )
+	{
+		Write-Output "Not a number in range.`n"
+	}
+	else
+	{
+		Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value $SetUACLevel
+		break
+   }
+}
+# End of UAC Section
 
-# disable rdp, uncomment depending on scenario
-# Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 1
-# Disable-NetFireWallRule -DisplayGroup "Remote Desktop"
+# Configure RDP Section
+while( $true )
+	if ( $DisableRDPServer -eq 'e' )
+	{
+		Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 1
+		Disable-NetFireWallRule -DisplayGroup "Remote Desktop"
+		break
+	}
+	elseif ($DisableRDPServer -eq 'd' )
+	{
+		Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
+		Enable-NetFireWallRule -DisplayGroup "Remote Desktop"
+		break
+	}
+	else
+	{
+		$DisableRDPServer = Read-Host "Should RDP be enabled? (E/D): "
+		if ( $DisableRDPServer -eq 'y' )
+	}
+#End of RDP Section
 
 # enable rdp, uncomment depending on scenario
 Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
