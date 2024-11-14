@@ -80,34 +80,51 @@ echo -e "\033[34m\
 
 echo -e "\033[33m\n\
 Check users' home directories for unauthorized files?\
-\033[0m\n"
+\033[0m"
 
 echo -en "(Y/N)?:"
 while :
 do
 	if [[ "$CHECK_UNAUTH_FILES" == 'Y' || "$CHECK_UNAUTH_FILES" == 'y' ]]; then
-		echo -e "\n\033[32m\
-Give the command several seconds to find the files; then review them.\n\
-Press Q when you are done reviewing the files.\n\
-\033[0m\n\
-Press any key to continue..."
-		read -n 1
-		export BADFILESLIST = $(sudo find /home \
+		
+		echo -e '\n'
+		BADFILESLIST=$(sudo find /home -type f \
 -iname "*.mp3" -o \
 -iname "*.mp4" -o \
 -iname "*.mov" -o \
 -iname "*.wmv" -o \
 -iname "*.avi" -o \
 -iname "*.gif" -o \
--iname "*.webm" 2>/dev/null | awk '{ print "\""$0"\""}' )
-		echo $BADFILESLIST | sed "s/\" /\n/g" | sed "s/\"//g" | less
+-iname "*.webm" 2>/dev/null)
+		
+		if [ -z "$BADFILESLIST" ]; then
+				echo -e "\033[33m\n\
+No files found. Press any key to continue...\
+\033[0m"
+				read -n 1
+				break
+		else
+				for file in "$BADFILESLIST"; do ls -l $file; done
+				echo -e "\
+Review files, then press any key to continue..."
+				read -n 1
+		fi
+
 		while :
 		do
 			if [[ "$RM_FILES" == 'Y' || "$RM_FILES" == 'y' ]]; then
-				echo -e "Moving unauthorized files to /tmp/unauthorized-files/...'"
+				echo -e "Moving unauthorized files to /tmp/unauthorized-files...'\n"
 				sudo mkdir -m 770 -p /tmp/unauthorized-files/
-				sudo cp --parents $BADFILESLIST /tmp/unauthorized-files/
-				sudo rm -f $BADFILESLIST
+				# I couldn't figure out a better way to implement this chunk
+				# of bash below because `find` is stoopy, but it works...
+				sudo find /home -type f \
+-iname "*.mp3" -exec cp --parents -t /tmp/unauthorized-files/ {} + -exec rm {} + -o \
+-iname "*.mp4" -exec cp --parents -t /tmp/unauthorized-files/ {} + -exec rm {} + -o \
+-iname "*.mov" -exec cp --parents -t /tmp/unauthorized-files/ {} + -exec rm {} + -o \
+-iname "*.wmv" -exec cp --parents -t /tmp/unauthorized-files/ {} + -exec rm {} + -o \
+-iname "*.avi" -exec cp --parents -t /tmp/unauthorized-files/ {} + -exec rm {} + -o \
+-iname "*.gif" -exec cp --parents -t /tmp/unauthorized-files/ {} + -exec rm {} + -o \
+-iname "*.webm" -exec cp --parents -t /tmp/unauthorized-files/ {} + -exec rm {} + 
 				break
 			elif [[ "$RM_FILES" == 'N' || "$RM_FILES" == 'n' ]]; then
 				echo -e "Skipped removing unauthorized files...\n"
