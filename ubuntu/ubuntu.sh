@@ -87,7 +87,6 @@ while :
 do
 	if [[ "$CHECK_UNAUTH_FILES" == 'Y' || "$CHECK_UNAUTH_FILES" == 'y' ]]; then
 		
-		echo -e '\n'
 		BADFILESLIST=$(sudo find /home -type f \
 -iname "*.mp3" -o \
 -iname "*.mp4" -o \
@@ -99,14 +98,14 @@ do
 		
 		if [ -z "$BADFILESLIST" ]; then
 				echo -e "\033[33m\n\
-No files found. Press any key to continue...\
-\033[0m"
+No files found.\033[0m Press any key to continue..."
 				read -n 1
 				break
 		else
-				for file in "$BADFILESLIST"; do ls -l $file; done
-				echo -e "\
-Review files, then press any key to continue..."
+				echo -e "\033[31m\n$BADFILESLIST\
+\033[0m\n"
+				echo -e "\033[33m\
+Review files\033[0m, then press any key to continue..."
 				read -n 1
 		fi
 
