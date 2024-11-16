@@ -1,6 +1,6 @@
 import platform
 
 if platform.system() == "Linux":
-    from platforms import debian
-    debian.main()
+    from platforms import linux
+    linux.main()
 
