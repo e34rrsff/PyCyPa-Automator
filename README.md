@@ -13,4 +13,5 @@ CyberPatriot Scripts
 | .../tests/			| Use this directory for testing your solutions with Python.
 
 ### Helpful Python notes
+> A __main__.py allows the directory the file is in to be imported as if it were a Python script file
 > An \_\_init\_\_.py file makes sure that Python scripts within the same directory are available to scripts from above that directory. It can simply be left empty.

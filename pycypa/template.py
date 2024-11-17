@@ -1,4 +1,3 @@
-# Mozilla General Public License Version 2.0
 # Copyright 2024 PyCyPa Automator Developers.
 # See the COPYRIGHT file at the top-level directory.
 
