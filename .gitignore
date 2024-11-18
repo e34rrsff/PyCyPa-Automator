@@ -1,7 +1,8 @@
-# We can probably do without all of each other's tests
-!/tests/
-/tests/**
+# We can probably do without all of each other's tests.
+# I also added a .placeholder file under tests/ so that tests/ will still be 
+# tracked.
+tests/*
 
 # Output from PyInstaller
-/build/
-/dist/
+build/
+dist/
