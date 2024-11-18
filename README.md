@@ -13,6 +13,12 @@ PyCyPa Automator
 | .../references/ 	| Add any useful notes or files used for reference here. |
 | .../tests/			| Use this directory for testing your solutions with Python.
 
+### Compilation
+
+Running `compile.py` should include everything you need for a local-host compatible binary
+
+The produced binary will be under `dist/`.
+
 ### Helpful Python notes
 
 > IMPORTANT: You need a Python virtual environment to install PyInstaller.
