@@ -2,6 +2,7 @@
 # I also added a .placeholder file under tests/ so that tests/ will still be 
 # tracked.
 tests/*
+!tests/.placeholder
 
 # Output from PyInstaller
 build/
