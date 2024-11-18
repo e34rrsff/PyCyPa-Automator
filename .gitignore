@@ -4,6 +4,10 @@
 tests/*
 !tests/.placeholder
 
-# Output from PyInstaller
+# PyInstaller related files
 build/
 dist/
+/*.spec
+
+# Python generated craps
+**/__pycache__

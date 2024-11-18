@@ -10,7 +10,7 @@
 import sys
 import platform
 import subprocess
-import PyInstaller.__main__ as PyInstaller
+import PyInstaller.__main__
 
 def getRequirements(requirementstxt):
     subprocess.check_call([
@@ -18,30 +18,42 @@ def getRequirements(requirementstxt):
         '-m',
         'pip',
         'install',
-        '-r',
-        requirementstxt
+        '-Ur',
+        requirementstxt,
     ])
 
-def compile():
-    PyInstaller.run([
-        './pycypa/__main__.py',
-        '--onefile',
-        '--windowed',
-        '-d imports',
-        '-v',
-    ])
+pyInstallerOptions = [
+    './pycypa/__main__.py',
+    '--onefile',
+    '--windowed',
+]
 
 def main():
-#    getRequirements('./requirements.txt')
 
+# Installing globally required packages/libraries
+    getRequirements( './requirements.txt' )
+    
     if platform.system() == 'Linux':
+        # Get requirements for Linux with pip
         getRequirements( './pycypa/linux_requirements.txt' )
+        
+        import distro
+        pyInstallerOptions.append( '--name=pycypa-' + distro.codename() )
+        # PyInstaller needs help finding required imports
+        pyInstallerOptions.append( '--hidden-import=linux' )
 
     elif platform.system() == 'Windows':
-        return 0
+        getRequirements( './pycypa/windows_requirements.txt' )
+
+        # Help for PyInstaller
+        pyInstallerOptions.append( '--hidden-imports=windows' )
 
     else:
         print("You are not on a supported platform. (Windows/Linux)")
+    
+    # Prints out options gathered during the if statements above
+    print("\nPyInstaller options: \n", pyInstallerOptions )
+    PyInstaller.__main__.run( pyInstallerOptions )
 
 if __name__ == '__main__':
     main()
