@@ -15,7 +15,9 @@ PyCyPa Automator
 
 ### Compilation
 
-Running `compile.py` should include everything you need for a local-host compatible binary
+Running `compile.py` should pack everything you need intoa single binary for the target system.
+
+Specify the target system with `--target=`
 
 The produced binary will be under `dist/`.
 
