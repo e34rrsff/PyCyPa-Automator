@@ -6,19 +6,24 @@
 # main() doesn't need to be defined for scripts that only contain functions,
 # such as scripts under .../<distro-codename/windows-release>/
 
+import sys
 import importlib
 import platform
 
-def congregateScripts():
-    # Get filenames of scripts under the directory of current platform name
-    # (system = importlib jargon) = import linux/windows,
-    # system.main() = <windows/linux>/__init__.py's main function
-    system = importlib.import_module(platform.system().lower())
+def linux():
+    import distro
+    try:
+        system = importlib.import_module( distro.codename() )
+    except ModuleNotFoundError:
+        print(  'Module "' + distro.codename() + '" not found.\n'+
+                'The host system is probably not running the same',
+                'release codename as the compiled target.' )
+        sys.exit()
+
     system.main()
 
 def main():
-    # Write your code here
-    congregateScripts()
+    linux()
 
 if __name__ == '__main__':
     main()
