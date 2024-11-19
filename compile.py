@@ -34,6 +34,8 @@ def validateSystem(systemName):
             global system
             system = systemName.lower()
             return
+        else:
+            continue
 
 def validateTarget(targetName):
     # For now, the available targets will have to be manually added
@@ -51,6 +53,8 @@ def validateTarget(targetName):
             global target
             target = targetName
             return
+        else:
+            continue
 
     print( 'Not a supported/recognized target' )
     sys.exit()
