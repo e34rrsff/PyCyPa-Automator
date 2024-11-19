@@ -82,13 +82,15 @@ def main():
     validateSystem( platform.system() )
     validateTarget( parser.parse_args().target )
 
-    pyInstallerOptions.append( '--name=pycypa-' + target )
     pyInstallerOptions.append( '--hidden-import=' + system )
+    pyInstallerOptions.append( '--name=pycypa-' + target )
     pyInstallerOptions.append(
         '--hidden-import=' + system + '.' + target )
 
     # Installing globally required packages/libraries
     getRequirements( './requirements.txt' )
+
+    # Platform-specific dependencies
     getRequirements( './pycypa/' + system + '_requirements.txt' )
 
     # Prints out options gathered during the if statements above

@@ -3,8 +3,5 @@
 # the COPYRIGHT file located at the top-level-directory of
 # this codebase.
 
-# main() doesn't need to be defined for scripts that only contain functions,
-# such as scripts under .../<distro-codename/windows-release>/
-
-def main():
-    print("Got Jammy")
+def init():
+    print( 'jammy' )
