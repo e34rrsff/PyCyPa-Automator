@@ -14,6 +14,7 @@ Todo
 - [ ] Check for backdoors
 - [ ] Check users and groups
 - [ ] Run an `sfc` check
+- [ ] Check for media files
 - [ ] [sample text]
 
 ---
@@ -23,4 +24,10 @@ Todo
 - [ ] Fix users and groups
 - [ ] Checking the filesystem for SUS permissions
 	- [ ] `/etc/{fstab, passwd, shadow, group, etc.}`
+- [ ] Checking crons
+- [ ] Checking ssh config
+- [ ] Checking firewall rules, turning on firewall
+- [ ] Setting password reqs (pam.d)
+- [ ] Checking packages
+- [ ] Running updates (not 100 percent needed)
 - [ ] [sample text]
