@@ -87,14 +87,15 @@ def main():
     pyInstallerOptions.append(
         '--hidden-import=' + system + '.' + target )
 
+    # Prints out the options gathered during above "appends"
+    print("\nPyInstaller options: \n", pyInstallerOptions )
+
     # Installing globally required packages/libraries
     getRequirements( './requirements.txt' )
 
     # Platform-specific dependencies
     getRequirements( './pycypa/' + system + '_requirements.txt' )
 
-    # Prints out options gathered during the if statements above
-    print("\nPyInstaller options: \n", pyInstallerOptions )
     PyInstaller.__main__.run( pyInstallerOptions )
 
 if __name__ == '__main__':
