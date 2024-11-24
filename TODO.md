@@ -28,13 +28,37 @@ Todo
 - [ ] Fix users and groups
 - [ ] Checking the filesystem for SUS stuff
 	- [ ] `/etc/`
-        - [ ] Read up on `login.defs`
-            - "man" page:
-            https://man7.org/linux/man-pages/man5/login.defs.5.html
-        - [ ] `sudoers`(`.d`)
-            * There shouldn't be any NOPASSWD entries
-            * Only sudo and admin groups should have root command access
+        - [ ] `login.defs`
+            * `ENCRYPT_METHOD` = "SHA512"
+            * `LOG_OK_LOGINS` should be set to  `yes`
+            * `LOG_UNKFAIL_ENAB` should be set to `yes`
+            * `LOGIN_RETRIES` should be set to `5`
+            * `LOGIN_TIMEOUT` should be set to `60`
+            * `PASS_MAX_DAYS` should be set to `90`
+            * `PASS_MIN_DAYS` should be set to `1`
+            * `PASS_WARN_AGE` should be set to `7`
+                > Label is misleading; this will warn the user 7 days before
+                their password expires.
+                > **IMPORTANT**: current users' **will not** get their password
+                expiry settings updated after editing `login.defs`. Updates to
+                `/etc/shadow` are required.
+            * `SYSLOG_SG_ENAB` should be set to `yes`
+            * `SYSLOG_SU_ENAB` should be set to `yes`
+            * `USERGROUPS_ENAB` should be set to `yes`
+            * Set permissions for the file to `0400`
+
+        - [ ] `sudoers(.d)`
+            * `env_reset` should be set
+            * `setenv` should NOT be set
+            * There should be no "...`mail`..." options set
+            * `secure_path` should only be set to protected directories
+            * Set `syslog` to enable logging
+            * Set `timestamp_timeout` to `0` disable sudo timeouts
+            * There shouldn't be any `NOPASSWD` entries
+            * Only `sudo` & `admin` group should be able to run "`ALL`"
+            commands as root
             * **ALSO** check files under `sudoers.d`
+
 - [ ] Checking crons
 - [ ] Checking ssh config
 - [ ] Checking firewall rules, turning on firewall
