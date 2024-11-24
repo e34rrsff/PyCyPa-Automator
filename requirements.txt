@@ -1,2 +1,1 @@
-# Install pyinstaller using `pip install -U requirements.txt`
 pyinstaller

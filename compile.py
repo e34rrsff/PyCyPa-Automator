@@ -9,6 +9,7 @@
 # such as scripts under .../<distro-codename/windows-release>/
 
 import sys
+import os
 import platform
 import subprocess
 import argparse
@@ -70,9 +71,12 @@ def getRequirements(requirementstxt):
         requirementstxt,
     ])
 
+# The path of this "compile.py" file
+compilePyPath = os.path.dirname(__file__)
+
 # Options that would be used with the CLI command pyinstaller
 pyInstallerOptions = [
-    './pycypa/__main__.py',
+    compilePyPath + '/pycypa/__main__.py',
     '--onefile',
     '--windowed',
 ]
@@ -91,10 +95,11 @@ def main():
     print("\nPyInstaller options: \n", pyInstallerOptions )
 
     # Installing globally required packages/libraries
-    getRequirements( './requirements.txt' )
+    getRequirements( compilePyPath + '/requirements.txt' )
 
     # Platform-specific dependencies
-    getRequirements( './pycypa/' + system + '_requirements.txt' )
+    getRequirements( compilePyPath + '/pycypa/' +
+                    system + '_requirements.txt' )
 
     PyInstaller.__main__.run( pyInstallerOptions )
 
