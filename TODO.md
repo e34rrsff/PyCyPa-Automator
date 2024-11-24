@@ -37,11 +37,11 @@ Todo
             * `PASS_MAX_DAYS` should be set to `90`
             * `PASS_MIN_DAYS` should be set to `1`
             * `PASS_WARN_AGE` should be set to `7`
-                > Label is misleading; this will warn the user 7 days before
-                their password expires.
-                > **IMPORTANT**: current users' **will not** get their password
-                expiry settings updated after editing `login.defs`. Updates to
-                `/etc/shadow` are required.
+
+              	> Label is misleading; this will warn the user 7 days before their password expires.
+          	
+                > **IMPORTANT**: Current users **will not** get their password expiry settings updated after editing `login.defs`. Updates to `/etc/shadow` are required.
+      		
             * `SYSLOG_SG_ENAB` should be set to `yes`
             * `SYSLOG_SU_ENAB` should be set to `yes`
             * `USERGROUPS_ENAB` should be set to `yes`
