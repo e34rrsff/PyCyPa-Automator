@@ -8,15 +8,15 @@
 # main() doesn't need to be defined for scripts that only contain functions,
 # such as scripts under .../<distro-codename/windows-release>/
 
-import sys
-import os
-import platform
-import subprocess
-import argparse
+from os import path
+from sys import exit, executable
+from platform import system
+from subprocess import check_call
+from argparse import ArgumentParser
 import PyInstaller.__main__
 
 # argparse is a library that add CLI argument-passing functionality
-parser = argparse.ArgumentParser( description='PyCyPa' )
+parser = ArgumentParser( description='PyCyPa' )
 parser.add_argument(
     '--target',
     type=str,
@@ -58,12 +58,12 @@ def validateTarget(targetName):
             continue
 
     print( 'Not a supported/recognized target' )
-    sys.exit()
+    exit()
 
 # Just executes a pip install with a .txt file containing library names
 def getRequirements(requirementstxt):
-    subprocess.check_call([
-        sys.executable,
+    check_call([
+        executable,
         '-m',
         'pip',
         'install',
@@ -72,7 +72,7 @@ def getRequirements(requirementstxt):
     ])
 
 # The path of this "compile.py" file
-compilePyPath = os.path.dirname(__file__)
+compilePyPath = path.dirname(__file__)
 
 # Options that would be used with the CLI command pyinstaller
 pyInstallerOptions = [
@@ -83,7 +83,7 @@ pyInstallerOptions = [
 
 def main():
 
-    validateSystem( platform.system() )
+    validateSystem( system() )
     validateTarget( parser.parse_args().target )
 
     pyInstallerOptions.append( '--name=pycypa-' + target )
@@ -91,6 +91,12 @@ def main():
     pyInstallerOptions.append( '--hidden-import=' + system )
     pyInstallerOptions.append(
         '--hidden-import=' + system + '.' + target )
+    pyInstallerOptions.append(
+        '--add-data=' + compilePyPath + '/pycypa/' + system
+        + ':' + system )
+    pyInstallerOptions.append(
+        '--add-data=' + compilePyPath + '/pycypa/' + system + '/' + target
+        + ':' + system + '/' + target )
 
     # Prints out the options gathered during above "appends"
     print("\nPyInstaller options: \n", pyInstallerOptions )
