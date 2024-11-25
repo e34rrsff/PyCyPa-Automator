@@ -1,0 +1,1 @@
+print('It just works')

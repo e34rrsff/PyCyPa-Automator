@@ -10,8 +10,5 @@ class system:
     platformDir = 'linux'
     codenameDir = distro.codename()
 
-#releaseScripts = import_module( system.platformDir + '.' + system.codenameDir )
-
 def run():
     congregateScripts.run( system.platformDir, system.codenameDir )
-    #releaseScripts.run()
