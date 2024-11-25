@@ -86,8 +86,9 @@ def main():
     validateSystem( platform.system() )
     validateTarget( parser.parse_args().target )
 
-    pyInstallerOptions.append( '--hidden-import=' + system )
     pyInstallerOptions.append( '--name=pycypa-' + target )
+    pyInstallerOptions.append( '--workpath=' + compilePyPath )
+    pyInstallerOptions.append( '--hidden-import=' + system )
     pyInstallerOptions.append(
         '--hidden-import=' + system + '.' + target )
 
