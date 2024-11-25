@@ -3,5 +3,8 @@
 # the COPYRIGHT file located at the top-level-directory of
 # this codebase.
 
-def init():
+import os
+
+def run():
     print( 'jammy' )
+    os.path.abspath(__file__)

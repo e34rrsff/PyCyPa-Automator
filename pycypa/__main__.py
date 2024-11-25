@@ -3,19 +3,12 @@
 # the COPYRIGHT file located at the top-level-directory of
 # this codebase.
 
-import sys
-import importlib
 import platform
-
-def importLinuxRelease():
-    import distro
-    
-    # IMPORTANT CHANGE "jammy" TO distro.codename() AFTER DONE TESTING
-    global systemRelease
-    systemVersion = importlib.import_module( 'linux.' + 'jammy' )
+from importlib import import_module
 
 def main():
-    linux()
+    system = import_module( platform.system().lower() )
+    system.run()
 
 if __name__ == '__main__':
     main()

@@ -3,6 +3,15 @@
 # the COPYRIGHT file located at the top-level-directory of
 # this codebase.
 
-def init():
-    import linux.jammy
-    jammy.init()
+import distro
+import congregate_scripts as congregateScripts
+
+class system:
+    platformDir = 'linux'
+    codenameDir = distro.codename()
+
+#releaseScripts = import_module( system.platformDir + '.' + system.codenameDir )
+
+def run():
+    congregateScripts.run( system.platformDir, system.codenameDir )
+    #releaseScripts.run()

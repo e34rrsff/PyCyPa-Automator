@@ -67,9 +67,12 @@ def getRequirements(requirementstxt):
         '-m',
         'pip',
         'install',
-        '-Ur',
+        '-qUr',
         requirementstxt,
     ])
+
+validateSystem( system() )
+validateTarget( parser.parse_args().target )
 
 # The path of this "compile.py" file
 compilePyPath = path.dirname(__file__)
@@ -79,36 +82,37 @@ pyInstallerOptions = [
     compilePyPath + '/pycypa/__main__.py',
     '--onefile',
     '--windowed',
+    '--log-level=ERROR',
 ]
 
-def main():
+pyInstallerOptions.append( '--name=pycypa-' + target )
+pyInstallerOptions.append( '--workpath=' + compilePyPath )
+pyInstallerOptions.append( '--hidden-import=' + system )
+pyInstallerOptions.append(
+    '--hidden-import='
+    + system + '.'
+    + target )
+pyInstallerOptions.append(
+    '--add-data='
+    + compilePyPath + '/pycypa/'
+    + system + ':'
+    + system )
+pyInstallerOptions.append(
+    '--add-data='
+    + compilePyPath + '/pycypa/'
+    + system + '/'
+    + target + ':'
+    + system + '/'
+    + target )
 
-    validateSystem( system() )
-    validateTarget( parser.parse_args().target )
+# Prints out the options gathered during above "appends"
+print("\nPyInstaller options: \n", pyInstallerOptions )
 
-    pyInstallerOptions.append( '--name=pycypa-' + target )
-    pyInstallerOptions.append( '--workpath=' + compilePyPath )
-    pyInstallerOptions.append( '--hidden-import=' + system )
-    pyInstallerOptions.append(
-        '--hidden-import=' + system + '.' + target )
-    pyInstallerOptions.append(
-        '--add-data=' + compilePyPath + '/pycypa/' + system
-        + ':' + system )
-    pyInstallerOptions.append(
-        '--add-data=' + compilePyPath + '/pycypa/' + system + '/' + target
-        + ':' + system + '/' + target )
+# Installing globally required packages/libraries
+getRequirements( compilePyPath + '/requirements.txt' )
 
-    # Prints out the options gathered during above "appends"
-    print("\nPyInstaller options: \n", pyInstallerOptions )
+# Platform-specific dependencies
+getRequirements( compilePyPath + '/pycypa/' +
+                system + '_requirements.txt' )
 
-    # Installing globally required packages/libraries
-    getRequirements( compilePyPath + '/requirements.txt' )
-
-    # Platform-specific dependencies
-    getRequirements( compilePyPath + '/pycypa/' +
-                    system + '_requirements.txt' )
-
-    PyInstaller.__main__.run( pyInstallerOptions )
-
-if __name__ == '__main__':
-    main()
+PyInstaller.__main__.run( pyInstallerOptions )
