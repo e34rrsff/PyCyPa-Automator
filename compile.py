@@ -83,27 +83,22 @@ pyInstallerOptions = [
     '--onefile',
     '--windowed',
     '--log-level=ERROR',
-]
-
-pyInstallerOptions.append( '--name=pycypa-' + target )
-pyInstallerOptions.append( '--workpath=' + compilePyPath )
-pyInstallerOptions.append( '--hidden-import=' + system )
-pyInstallerOptions.append(
+    '--name=pycypa-' + target,
+    '--hidden-import=' + system,
     '--hidden-import='
-    + system + '.'
-    + target )
-pyInstallerOptions.append(
+        + system + '.'
+        + target,
     '--add-data='
-    + compilePyPath + '/pycypa/'
-    + system + ':'
-    + system )
-pyInstallerOptions.append(
+        + compilePyPath + '/pycypa/'
+        + system + ':'
+        + system,
     '--add-data='
-    + compilePyPath + '/pycypa/'
-    + system + '/'
-    + target + ':'
-    + system + '/'
-    + target )
+        + compilePyPath + '/pycypa/'
+        + system + '/'
+        + target + ':'
+        + system + '/'
+        + target,
+]
 
 # Prints out the options gathered during above "appends"
 print("\nPyInstaller options: \n", pyInstallerOptions )
