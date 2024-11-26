@@ -27,8 +27,8 @@ Todo
 - [ ] Checking for backdoors
 - [ ] Fix users and groups
 - [ ] Checking the filesystem for SUS stuff
-	- [ ] `/etc/`
-        - [ ] `login.defs`
+	- [ ] `/etc`
+        - [ ] `/login.defs`
             * `ENCRYPT_METHOD` = "SHA512"
             * `LOG_OK_LOGINS` should be set to  `yes`
             * `LOG_UNKFAIL_ENAB` should be set to `yes`
@@ -47,17 +47,26 @@ Todo
             * `USERGROUPS_ENAB` should be set to `yes`
             * Set permissions for the file to `0400`
 
-        - [ ] `sudoers(.d)`
+        - [ ] `/sudoers(.d)`
             * `env_reset` should be set
             * `setenv` should NOT be set
-            * There should be no "...`mail`..." options set
-            * `secure_path` should only be set to protected directories
-            * Set `syslog` to enable logging
-            * Set `timestamp_timeout` to `0` disable sudo timeouts
-            * There shouldn't be any `NOPASSWD` entries
-            * Only `sudo` & `admin` group should be able to run "`ALL`"
+            * "...`mail`..." options shouldn't be set
+            * `secure_path` should be set to *protected* directories
+            * `syslog` set to enable logging
+            * `timestamp_timeout` set to `0` to disable sudo timeouts
+            * `NOPASSWD` should not exist in any permission entries
+            * `sudo` & `admin` groups should be able to run "`ALL`"
             commands as root
-            * **ALSO** check files under `sudoers.d`
+            * `sudoers.d` may contain other files worth looking at
+
+        - [ ] Display Manager (lightdm/gdm)
+
+            The Linux image usually uses one of these two display managers;
+            detect and configure the correct one.
+
+            - [ ] `/gdm3/greeter.dconf-defaults`
+                * `disable-user-list` should be set to `true`
+                * `disable-restart-buttons` should be set to true
 
 - [ ] Checking crons
 - [ ] Checking ssh config
