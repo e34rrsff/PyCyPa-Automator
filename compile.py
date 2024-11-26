@@ -8,7 +8,7 @@
 # main() doesn't need to be defined for scripts that only contain functions,
 # such as scripts under .../<distro-codename/windows-release>/
 
-from os import path
+from os import path, sep
 from sys import exit, executable
 from platform import system
 from subprocess import check_call
@@ -79,7 +79,7 @@ compilePyPath = path.dirname(__file__)
 
 # Options that would be used with the CLI command pyinstaller
 pyInstallerOptions = [
-    compilePyPath + '/pycypa/__main__.py',
+    compilePyPath + sep + 'pycypa' + sep + '__main__.py',
     '--onefile',
     '--windowed',
     '--log-level=ERROR',
@@ -89,14 +89,16 @@ pyInstallerOptions = [
         + system + '.'
         + target,
     '--add-data='
-        + compilePyPath + '/pycypa/'
+        + compilePyPath + sep
+        + 'pycypa' + sep
         + system + ':'
         + system,
     '--add-data='
-        + compilePyPath + '/pycypa/'
-        + system + '/'
+        + compilePyPath + sep
+        + 'pycypa' + sep
+        + system + sep
         + target + ':'
-        + system + '/'
+        + system + sep
         + target,
 ]
 
@@ -104,10 +106,10 @@ pyInstallerOptions = [
 print("\nPyInstaller options: \n", pyInstallerOptions )
 
 # Installing globally required packages/libraries
-getRequirements( compilePyPath + '/requirements.txt' )
+getRequirements( compilePyPath + sep + 'requirements.txt' )
 
 # Platform-specific dependencies
-getRequirements( compilePyPath + '/pycypa/' +
-                system + '_requirements.txt' )
+getRequirements( compilePyPath + sep + 'pycypa'
+                + sep + system + '_requirements.txt' )
 
 PyInstaller.__main__.run( pyInstallerOptions )
