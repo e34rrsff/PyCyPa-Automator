@@ -91,11 +91,6 @@ pyInstallerOptions = [
     '--add-data='
         + compilePyPath + sep
         + 'pycypa' + sep
-        + system + ':'
-        + system,
-    '--add-data='
-        + compilePyPath + sep
-        + 'pycypa' + sep
         + system + sep
         + target + ':'
         + system + sep
