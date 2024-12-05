@@ -24,10 +24,39 @@ Todo
 ---
 
 ## Linux
-- [ ] Checking for backdoors
+- [X] Write answers to forensic questions
 - [ ] Fix users and groups
+- [ ] Checking for backdoors
 - [ ] Checking the filesystem for SUS stuff
 	- [ ] `/etc`
+
+        - [ ] `/adduser.conf`
+
+            Pretty much everything here should be commented out so that the
+            defaults are used. If ther are any uncommented lines, it may have
+            been tampered with.
+
+        - [ ] `/aliases`
+
+            * `postmaster` should be set to `root`
+
+            That should be all that's in the file.
+
+        - [ ] `/anacrontab`
+
+            * `SHELL` should be set to `/bin/sh`
+            * `HOME` : `/root`
+            * `LOGNAME` : `root`
+
+        - [ ] Display Manager (lightdm/gdm)
+
+            The Linux image usually uses one of these two display managers;
+            detect and configure the correct one.
+
+            - [ ] `/gdm3/greeter.dconf-defaults`
+                * `disable-user-list` should be set to `true`
+                * `disable-restart-buttons` should be set to true
+
         - [ ] `/login.defs`
             * `ENCRYPT_METHOD` = "SHA512"
             * `LOG_OK_LOGINS` should be set to  `yes`
@@ -59,15 +88,6 @@ Todo
             commands as root
             * `sudoers.d` may contain other files worth looking at
 
-        - [ ] Display Manager (lightdm/gdm)
-
-            The Linux image usually uses one of these two display managers;
-            detect and configure the correct one.
-
-            - [ ] `/gdm3/greeter.dconf-defaults`
-                * `disable-user-list` should be set to `true`
-                * `disable-restart-buttons` should be set to true
-
 - [ ] Checking crons
 - [ ] Checking ssh config
 - [ ] Checking firewall rules, turning on firewall
@@ -75,5 +95,3 @@ Todo
 - [ ] Checking packages
 - [ ] Running updates (not 100 percent needed)
 - [ ] [sample text]
-
----
