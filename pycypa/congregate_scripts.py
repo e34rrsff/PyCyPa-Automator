@@ -6,6 +6,7 @@
 import os 
 import re
 
+from sys import exit as exit
 from glob import glob
 from subprocess import check_call
 from itertools import chain
@@ -32,4 +33,8 @@ def run(platformDir, releaseDir):
         print("Using", scriptPath)
 
     for scriptPath in scriptList:
-        check_call([ 'python', scriptPath ])
+        try:
+            check_call([ 'python', scriptPath ])
+        except KeyboardInterrupt:
+            print( 'User interrupted script, exiting.' )
+            exit(1)
