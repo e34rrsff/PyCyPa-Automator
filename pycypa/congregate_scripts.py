@@ -10,10 +10,10 @@ from sys import exit as exit
 from glob import glob
 from subprocess import check_call
 from itertools import chain
-   
+
 # I found this snippet online which sorts strings containing numbers, with
 # regex
-def num_sort(string):
+def numSort(string):
         parts = re.split( '/', string )
         filename = parts[-1] if parts else ''
         return list( map( int, re.findall( r'\d+', filename )))[0]
@@ -27,7 +27,7 @@ def run(platformDir, releaseDir):
             glob( platformDir + '[!__init__]*.py' ) +
             glob( releaseDir  + '[!__init__]*.py' )
     )
-    scriptList.sort(key=num_sort)
+    scriptList.sort(key=numSort)
     
     for scriptPath in scriptList:
         print("Using", scriptPath)

@@ -55,44 +55,38 @@ def tabulateFile(fileName):
 
     print( '\n' + tabulate(tableData, headers='firstrow') )
 
-def manage( action ):
+def manage(action):
 
-        # Delete users
-        if action == 'deleteUsers':
-            while True:
-                try:
-                    usersToRemove = createList( input(f'''
+    def deleteUsers():
+        usersToRemove = createList( input(f'''
 {blue}Enter a list of users that should be {red}REMOVED{nocolor}
 Remove users: '''))
-                    for user in usersToRemove:
-                        check_call([ 'userdel', user ])
-                except Exception:
-                    continue
-                break
-        # Define non-admin users
-        if action == 'makeNonAdmin':
-            while True:
-                try:
-                    nonAdminList = createList( input(f'''
+        for user in usersToRemove:
+            check_call([ 'userdel', user ])
+
+    def makeNonAdmins():
+        nonAdminList = createList( input(f'''
 {blue}Enter the list of authorized {yellow}non-admin users{nocolor}
 Regular users: '''))
-                    for user in values:
-                        check_call([ 'gpasswd', '--delete', user, 'sudo' ])
-                        check_call([ 'gpasswd', '--delete', user, 'admin' ])
+        for user in nonAdminList:
+            check_call([ 'gpasswd', '--delete', user, 'sudo' ])
+            check_call([ 'gpasswd', '--delete', user, 'admin' ])
 
-        # Define admin users
-        if action == 'makeAdmin':
-            while True:
-                try:
-                    adminList = createList( input(f'''
+    def makeAdmins():
+        adminList = createList( input(f'''
 {blue}Enter a list of users that should be {red}admins{nocolor}
 Sudoers: '''))
-                    for user in values:
-                        check_call([ 'usermod', '-aG', 'sudo', user ])
-                        check_call([ 'usermod', '-aG', 'admin', user ])
-                except:
-                    continue
-                break
+
+        for user in adminList:
+            check_call([ 'usermod', '-aG', 'sudo', user ])
+            check_call([ 'usermod', '-aG', 'admin', user ])
+
+    while True:
+        try:
+            exec( action + '()' )
+        except Exception:
+            continue
+        break
 
 # Terminal colors
 red      = '\033[31m'
@@ -108,6 +102,5 @@ print( f'''{green}
 {nocolor}''',end='')
 
 manage( 'deleteUsers' )
-
-manage( 'makeNonAdmin', nonAdminList )
-
+manage( 'makeNonAdmins' )
+manage( 'makeAdmins' )
