@@ -84,10 +84,18 @@ pyInstallerOptions = [
     '--windowed',
     '--log-level=ERROR',
     '--name=pycypa-' + target,
+
     '--hidden-import=' + system,
     '--hidden-import='
         + system + '.'
         + target,
+
+    '--add-data='
+        + compilePyPath + sep
+        + 'pycypa' + sep
+        + system + ':'
+        + system,
+
     '--add-data='
         + compilePyPath + sep
         + 'pycypa' + sep
